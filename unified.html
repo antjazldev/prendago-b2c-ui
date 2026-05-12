@@ -236,6 +236,81 @@
     }
  
     .pg-footer a:hover { text-decoration: underline; }
+
+    /* =========================================================
+       SIGNUP MODE — email verification buttons
+       ========================================================= */
+
+    /* Send verification code / Verify code — outline green */
+    #api #email_ver_but_send,
+    #api #email_ver_but_verify {
+      background: transparent !important;
+      border: 1.5px solid #1A7A5E !important;
+      color: #1A7A5E !important;
+      border-radius: 8px !important;
+      padding: 10px 16px !important;
+      font-size: 14px !important;
+      font-weight: 500 !important;
+      font-family: 'Inter', sans-serif !important;
+      cursor: pointer;
+      width: 100% !important;
+      margin-top: 8px;
+      transition: background 0.15s ease;
+    }
+
+    #api #email_ver_but_send:hover,
+    #api #email_ver_but_verify:hover {
+      background: #E8F5F0 !important;
+    }
+
+    /* Resend code — neutral outline */
+    #api #email_ver_but_resend {
+      background: transparent !important;
+      border: 1px solid #E0DDD8 !important;
+      color: #6B6560 !important;
+      border-radius: 8px !important;
+      padding: 8px 14px !important;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      font-family: 'Inter', sans-serif !important;
+      cursor: pointer;
+      width: 100% !important;
+      margin-top: 8px;
+      transition: background 0.15s ease;
+    }
+
+    #api #email_ver_but_resend:hover {
+      background: #F7F5F2 !important;
+    }
+
+    /* Change email — inline link */
+    #api #email_ver_but_edit {
+      background: transparent !important;
+      border: none !important;
+      color: #1A7A5E !important;
+      font-size: 13px !important;
+      font-family: 'Inter', sans-serif !important;
+      cursor: pointer;
+      padding: 4px 0 !important;
+      text-decoration: underline;
+      display: inline-block;
+    }
+
+    /* Verification success message */
+    #api #email_ver_success {
+      font-size: 13px !important;
+      color: #1A7A5E !important;
+      font-family: 'Inter', sans-serif !important;
+      margin-top: 8px;
+    }
+
+    /* Subtitle injected by JS in signup mode */
+    .pg-card-subtitle {
+      font-size: 14px;
+      color: #6B6560;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
@@ -256,6 +331,29 @@
     <a href="https://prendago.com/privacidad" target="_blank">Política de privacidad</a>
     de PrendaGo.
   </p>
- 
+
+  <script>
+    (function () {
+      var search = window.location.search || '';
+      var hash   = window.location.hash   || '';
+      var isSignup = (search + hash).indexOf('local=signup') !== -1;
+
+      if (!isSignup) return;
+
+      // 1. Update page title
+      document.title = 'PrendaGo - Crear cuenta';
+
+      // 2. Insert subtitle inside the card, before #api
+      var api  = document.getElementById('api');
+      var card = api && api.parentElement;
+      if (card) {
+        var subtitle = document.createElement('p');
+        subtitle.className = 'pg-card-subtitle';
+        subtitle.textContent = 'Únete a PrendaGo y empieza a vender';
+        card.insertBefore(subtitle, api);
+      }
+    })();
+  </script>
+
 </body>
 </html>
