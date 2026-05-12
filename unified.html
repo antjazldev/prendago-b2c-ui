@@ -271,29 +271,120 @@
 
   <script>
     (function () {
-      /**
-       * 1. OBSERVER DE DOM:
-       * Azure B2C inyecta el formulario dinámicamente. 
-       * Esto asegura que el formulario no use validación nativa de HTML5
-       * que suele chocar con las políticas de Azure.
-       */
-      const observer = new MutationObserver((mutations, obs) => {
-        const form = document.querySelector('#localAccountForm') || document.querySelector('#attributeVerification');
+
+      /* ------------------------------------------------------------------
+         1. CLEANUP — applied once B2C injects the signup form into #api
+         ------------------------------------------------------------------ */
+      function applySignupFixes(root) {
+        // Remove helpLink elements
+        root.querySelectorAll('.helpLink, a.helpLink').forEach(function (el) {
+          el.style.display = 'none';
+        });
+
+        // Remove bullets from every li
+        root.querySelectorAll('li').forEach(function (li) {
+          li.style.listStyle  = 'none';
+          li.style.paddingLeft = '0';
+          li.style.marginLeft  = '0';
+        });
+
+        // sendCode-class buttons → outline green
+        root.querySelectorAll(
+          '.sendCode,' +
+          '[id$="_but_send_code"],' +
+          '[id$="_but_verify_code"],' +
+          '[id$="_but_change_claims"],' +
+          '#email_ver_but_send,' +
+          '#email_ver_but_verify'
+        ).forEach(function (btn) {
+          btn.style.background   = 'transparent';
+          btn.style.border       = '1.5px solid #1A7A5E';
+          btn.style.color        = '#1A7A5E';
+          btn.style.borderRadius = '8px';
+          btn.style.padding      = '10px 16px';
+          btn.style.fontSize     = '13px';
+          btn.style.fontWeight   = '500';
+          btn.style.cursor       = 'pointer';
+          btn.style.width        = '100%';
+          btn.style.marginTop    = '8px';
+          btn.style.fontFamily   = "'Inter', sans-serif";
+        });
+
+        // #continue button → solid green (primary)
+        var continueBtn = root.querySelector('#continue');
+        if (continueBtn) {
+          continueBtn.style.background   = '#1A7A5E';
+          continueBtn.style.color        = '#ffffff';
+          continueBtn.style.border       = 'none';
+          continueBtn.style.borderRadius = '8px';
+          continueBtn.style.padding      = '12px';
+          continueBtn.style.fontSize     = '14px';
+          continueBtn.style.fontWeight   = '600';
+          continueBtn.style.cursor       = 'pointer';
+          continueBtn.style.width        = '100%';
+          continueBtn.style.fontFamily   = "'Inter', sans-serif";
+        }
+
+        // All text / email / password inputs
+        root.querySelectorAll(
+          'input[type="text"],' +
+          'input[type="email"],' +
+          'input[type="password"],' +
+          'input[type="tel"]'
+        ).forEach(function (input) {
+          input.style.width        = '100%';
+          input.style.padding      = '12px';
+          input.style.border       = '1px solid #E0DDD8';
+          input.style.borderRadius = '8px';
+          input.style.fontSize     = '14px';
+          input.style.fontFamily   = "'Inter', sans-serif";
+          input.style.color        = '#1A1A1A';
+          input.style.background   = '#ffffff';
+          input.style.display      = 'block';
+          input.style.boxSizing    = 'border-box';
+        });
+
+        // Spacing between attribute-entry rows
+        root.querySelectorAll('.attrEntry').forEach(function (entry) {
+          entry.style.marginBottom = '12px';
+        });
+      }
+
+      /* ------------------------------------------------------------------
+         MutationObserver — watches #api; fires applySignupFixes once
+         children appear, then disconnects to avoid infinite loops
+         ------------------------------------------------------------------ */
+      var apiEl = document.getElementById('api');
+      if (apiEl) {
+        var cleanupObserver = new MutationObserver(function (mutations, obs) {
+          if (apiEl.children.length > 0) {
+            applySignupFixes(apiEl);
+            obs.disconnect();
+          }
+        });
+        cleanupObserver.observe(apiEl, { childList: true, subtree: true });
+      }
+
+      /* ------------------------------------------------------------------
+         2. NOVALIDATE — prevents native HTML5 validation conflicts with B2C
+         ------------------------------------------------------------------ */
+      var formObserver = new MutationObserver(function (mutations, obs) {
+        var form = document.querySelector('#localAccountForm') ||
+                   document.querySelector('#attributeVerification');
         if (form) {
           form.setAttribute('novalidate', 'novalidate');
-          const emailInput = document.querySelector('#email');
+          var emailInput = document.querySelector('#email');
           if (emailInput) emailInput.removeAttribute('pattern');
           obs.disconnect();
         }
       });
-      observer.observe(document.body, { childList: true, subtree: true });
+      formObserver.observe(document.body, { childList: true, subtree: true });
 
-      /**
-       * 2. LÓGICA DE FLUJO (SIGN IN VS SIGN UP):
-       * Detecta si estamos en registro para cambiar el título y añadir el subtítulo.
-       */
-      var search = window.location.search || '';
-      var hash   = window.location.hash   || '';
+      /* ------------------------------------------------------------------
+         3. SIGN-IN vs SIGN-UP — title and card subtitle
+         ------------------------------------------------------------------ */
+      var search   = window.location.search || '';
+      var hash     = window.location.hash   || '';
       var isSignup = (search + hash).indexOf('local=signup') !== -1;
 
       if (isSignup) {
@@ -301,13 +392,14 @@
         var api = document.getElementById('api');
         if (api && api.parentElement) {
           var subtitle = document.createElement('p');
-          subtitle.className = 'pg-card-subtitle';
+          subtitle.className   = 'pg-card-subtitle';
           subtitle.textContent = 'Únete a PrendaGo y empieza a vender';
           api.parentElement.insertBefore(subtitle, api);
         }
       } else {
         document.title = 'PrendaGo - Iniciar Sesión';
       }
+
     })();
   </script>
 </body>
