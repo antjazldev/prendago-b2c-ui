@@ -3,19 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PrendaGo</title>
+  <title>PrendaGo - Iniciar Sesión</title>
 
   <!-- Inter from Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
     /* =====================================================================
-       RESET
+       RESET & BASE
        ===================================================================== */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -23,9 +20,6 @@
       padding: 0;
     }
 
-    /* =====================================================================
-       BASE
-       ===================================================================== */
     html, body {
       min-height: 100%;
     }
@@ -35,7 +29,6 @@
       background: #F7F5F2;
       color: #1A1A1A;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -45,7 +38,7 @@
     }
 
     /* =====================================================================
-       PRENDAGO BRAND
+       BRANDING
        ===================================================================== */
     .pg-brand {
       text-align: center;
@@ -53,7 +46,6 @@
     }
 
     .pg-logo {
-      font-family: 'Inter', sans-serif;
       font-weight: 700;
       font-size: 28px;
       color: #1A7A5E;
@@ -65,11 +57,10 @@
       font-size: 14px;
       color: #6B6560;
       margin-top: 8px;
-      font-weight: 400;
     }
 
     /* =====================================================================
-       CARD
+       CARD CONTAINER
        ===================================================================== */
     .pg-card {
       width: 100%;
@@ -78,418 +69,148 @@
       border-radius: 12px;
       border: 1px solid #E0DDD8;
       padding: 32px;
-      box-shadow:
-        0 1px 2px rgba(0, 0, 0, 0.04),
-        0 4px 16px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
     }
 
     /* =====================================================================
-       PAGE FOOTER
-       ===================================================================== */
-    .pg-footer {
-      margin-top: 20px;
-      text-align: center;
-      font-size: 12px;
-      color: #6B6560;
-      max-width: 400px;
-    }
-
-    .pg-footer a {
-      color: #1A7A5E;
-      text-decoration: none;
-    }
-
-    .pg-footer a:hover {
-      text-decoration: underline;
-    }
-
-    /* =====================================================================
-       HIDE MICROSOFT / B2C DEFAULT BRANDING
-       ===================================================================== */
-
-    /* Page-level heading B2C injects ("Sign in", "Sign up", etc.) */
-    #api .intro,
-    #api .heading,
-    #api h1,
-    #api h2.localAccount-intro,
-    #api .intro p {
-      display: none !important;
-    }
-
-   #api #claimVerificationServerError {
-  display: none;
-}
-
-#api #claimVerificationServerError:not([aria-hidden="true"]) {
-  display: block;
-  background: #FEE2E2 !important;
-  border: 1px solid #E63F3F !important;
-  color: #991B1B !important;
-  border-radius: 8px !important;
-  padding: 10px 14px !important;
-  font-size: 13px !important;
-}
-
-    /* B2C chrome / footer branding */
-    .simplemodal-wrap,
-    #distanceFromTop,
-    .bread-crumb,
-    [id*="microsoft"],
-    [class*="microsoft"] {
-      display: none !important;
-    }
-
-    /* =====================================================================
-       B2C API CONTAINER
+       AZURE B2C - API OVERRIDES
        ===================================================================== */
     #api {
       font-family: 'Inter', sans-serif !important;
-      color: #1A1A1A;
     }
 
-    /* Remove B2C's own card/box styling */
-    #api .entry,
-    #api .localAccount,
-    #api .remoteAccount {
-      padding: 0 !important;
-      margin: 0 !important;
-      border: none !important;
-      background: transparent !important;
-      box-shadow: none !important;
+    /* Hidden Elements by Default */
+    #api .intro, #api .heading, #api h1, #api h2.localAccount-intro,
+    .simplemodal-wrap, #distanceFromTop, .bread-crumb {
+      display: none !important;
     }
 
-    /* =====================================================================
-       LABELS
-       ===================================================================== */
-    #api label {
-      display: block;
-      font-family: 'Inter', sans-serif !important;
+    /* FIX: HIDE RED BOX WHEN EMPTY OR HIDDEN */
+    #api .error.pageLevel, 
+    #api #claimVerificationServerError, 
+    #api #errorIntroduction {
+      display: none !important; /* Force hide by default */
+    }
+
+    /* SHOW ERROR ONLY WHEN ACTIVE */
+    #api .error.pageLevel[aria-hidden="false"],
+    #api #claimVerificationServerError:not([aria-hidden="true"]),
+    #api .error.pageLevel:not(:empty) {
+      display: block !important;
+      background: #FEE2E2 !important;
+      border: 1px solid #E63F3F !important;
+      color: #991B1B !important;
+      border-radius: 8px !important;
+      padding: 10px 14px !important;
+      margin-bottom: 16px;
       font-size: 13px !important;
-      font-weight: 500 !important;
-      color: #1A1A1A !important;
+    }
+
+    /* Field Level Errors */
+    #api .error.itemLevel:not(:empty) {
+      display: block !important;
+      color: #E63F3F !important;
+      font-size: 12px !important;
+      margin-top: 4px;
+    }
+
+    /* Form Layout */
+    #api .entry-item { margin-bottom: 16px; }
+    
+    /* Password Label Alignment */
+    .password-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
       margin-bottom: 6px;
     }
 
-    /* =====================================================================
-       INPUTS
-       ===================================================================== */
-    #api input[type="text"],
-    #api input[type="email"],
-    #api input[type="password"],
-    #api input[type="tel"],
-    #api input[type="number"],
-    #api input[type="search"],
-    #api textarea,
-    #api select {
+    #api label {
       display: block;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+    }
+
+    #api #forgotPassword {
+      margin: 0 !important;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* Inputs */
+    #api input[type="text"], #api input[type="email"], #api input[type="password"] {
       width: 100% !important;
       padding: 12px !important;
-      font-family: 'Inter', sans-serif !important;
-      font-size: 14px !important;
-      font-weight: 400 !important;
-      color: #1A1A1A !important;
-      background: #ffffff !important;
       border: 1px solid #E0DDD8 !important;
       border-radius: 8px !important;
-      outline: none !important;
-      box-shadow: none !important;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-      -webkit-appearance: none;
-      appearance: none;
+      font-size: 14px !important;
+      transition: border-color 0.15s ease;
     }
 
-    #api input::placeholder,
-    #api textarea::placeholder {
-      color: #A09890 !important;
-    }
-
-    #api input:focus,
-    #api textarea:focus,
-    #api select:focus {
+    #api input:focus {
       border-color: #1A7A5E !important;
-      box-shadow: 0 0 0 3px rgba(26, 122, 94, 0.10) !important;
+      outline: none !important;
+      box-shadow: 0 0 0 3px rgba(26, 122, 94, 0.1) !important;
     }
 
-    /* =====================================================================
-       ENTRY ITEMS (field rows)
-       ===================================================================== */
-    #api .entry-item,
-    #api .attrEntry {
-      margin-bottom: 16px;
-    }
-
-    #api .entry-item:last-child,
-    #api .attrEntry:last-child {
-      margin-bottom: 0;
-    }
-
-    /* =====================================================================
-       BUTTONS
-       ===================================================================== */
-    #api .buttons {
-      margin-top: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    /* Primary — Sign in / Continue / Send code */
-    #api #next,
-    #api .sendCode,
-    #api .verifyCode,
-    #api button[type="submit"],
-    #api input[type="submit"] {
-      display: block;
+    /* Buttons */
+    #api .buttons { margin-top: 24px; }
+    #api #next {
       width: 100% !important;
-      padding: 12px 16px !important;
-      font-family: 'Inter', sans-serif !important;
-      font-size: 15px !important;
-      font-weight: 500 !important;
-      color: #ffffff !important;
+      padding: 12px !important;
       background: #1A7A5E !important;
+      color: #fff !important;
       border: none !important;
       border-radius: 8px !important;
+      font-weight: 600 !important;
       cursor: pointer;
-      text-align: center;
-      transition: opacity 0.15s ease;
-      -webkit-appearance: none;
-      appearance: none;
     }
 
-    #api #next:hover,
-    #api .sendCode:hover,
-    #api .verifyCode:hover,
-    #api button[type="submit"]:hover,
-    #api input[type="submit"]:hover {
-      opacity: 0.88;
-    }
+    #api #next:hover { opacity: 0.9; }
 
-    #api #next:active,
-    #api button[type="submit"]:active {
-      opacity: 0.78;
-    }
-
-    /* Secondary — Cancel */
-    #api #cancel,
-    #api button[type="button"]:not(.sendCode):not(.verifyCode) {
-      display: block;
-      width: 100%;
-      padding: 12px 16px !important;
-      font-family: 'Inter', sans-serif !important;
-      font-size: 15px !important;
-      font-weight: 500 !important;
-      color: #6B6560 !important;
-      background: transparent !important;
-      border: 1px solid #E0DDD8 !important;
-      border-radius: 8px !important;
-      cursor: pointer;
-      text-align: center;
-      transition: background 0.15s ease;
-    }
-
-    #api #cancel:hover,
-    #api button[type="button"]:not(.sendCode):not(.verifyCode):hover {
-      background: #F7F5F2 !important;
-    }
-
-    /* =====================================================================
-       LINKS — forgot password, create account, etc.
-       ===================================================================== */
-    #api a {
-      color: #1A7A5E !important;
-      text-decoration: none !important;
-      font-size: 13px;
-      font-family: 'Inter', sans-serif !important;
-    }
-
-    #api a:hover {
-      text-decoration: underline !important;
-    }
-
-    #api #forgotPassword,
-    #api #createAccount {
-      display: block;
-      text-align: center;
-      margin-top: 16px;
-      font-size: 13px;
-      color: #1A7A5E !important;
-    }
-
-    /* =====================================================================
-       DIVIDER (between local and social sign-in)
-       ===================================================================== */
+    /* Divider */
     #api .divider {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin: 20px 0;
-      font-size: 13px;
+      margin: 24px 0;
       color: #6B6560;
+      font-size: 13px;
     }
-
-    #api .divider::before,
-    #api .divider::after {
-      content: '';
+    #api .divider::before, #api .divider::after {
+      content: "";
       flex: 1;
       height: 1px;
       background: #E0DDD8;
     }
+    #api .divider h2 { padding: 0 12px; font-size: 13px !important; }
 
-    /* Hide the "or" text B2C injects (we let pseudo-elements handle the line) */
-    #api .divider h2 {
-      font-size: 13px !important;
-      font-weight: 400 !important;
-      color: #6B6560 !important;
-    }
-
-    /* =====================================================================
-       SOCIAL / FEDERATED PROVIDERS
-       ===================================================================== */
-    #api .social-section .claims-provider-list-buttons a,
-    #api .social-section .claims-provider-list-buttons button {
-      display: flex !important;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 11px 16px !important;
-      margin-bottom: 8px;
-      font-family: 'Inter', sans-serif !important;
-      font-size: 14px !important;
-      font-weight: 500 !important;
-      color: #1A1A1A !important;
-      background: #ffffff !important;
-      border: 1px solid #E0DDD8 !important;
-      border-radius: 8px !important;
-      cursor: pointer;
-      text-decoration: none !important;
-      transition: background 0.15s ease;
-    }
-
-    #api .social-section .claims-provider-list-buttons a:hover,
-    #api .social-section .claims-provider-list-buttons button:hover {
-      background: #F7F5F2 !important;
-      text-decoration: none !important;
-    }
-
-    /* =====================================================================
-       ERRORS
-       ===================================================================== */
-
-    /* Server / verification error — B2C uses id="claimVerificationServerError" */
-    #api #claimVerificationServerError,
-    #api .error.pageLevel,
-    #api #errorIntroduction {
-      display: block;
-      background: #FEE2E2 !important;
-      border: 1px solid #E63F3F !important;
-      border-radius: 8px !important;
-      padding: 10px 14px !important;
-      margin-bottom: 12px;
-      font-family: 'Inter', sans-serif !important;
-      font-size: 13px !important;
-      color: #991B1B !important;
-    }
-
-    /* Field-level error (inline, below input) */
-    #api .error.itemLevel,
-    #api .error:not(.pageLevel) {
-      font-family: 'Inter', sans-serif !important;
-      font-size: 12px !important;
-      color: #E63F3F !important;
-      margin-top: 4px;
-      display: block;
-    }
-
-    /* Required field marker */
-    #api .required {
-      color: #E63F3F;
-    }
-
-    /* Inputs always keep the neutral border — no red border on error */
-    #api input.has-error,
-    #api input[aria-invalid="true"] {
-      border: 1px solid #E0DDD8 !important;
-    }
-
-    /* Hide error containers when B2C renders them empty */
-    #claimVerificationServerError:empty,
-    .error:empty,
-    [id*="error"]:empty,
-    [class*="error"]:empty {
-      display: none;
-    }
-
-    /* =====================================================================
-       VERIFICATION CODE (email / SMS MFA)
-       ===================================================================== */
-    #api .verificationControlContent {
-      margin-top: 8px;
-    }
-
-    #api .verificationControlContent .buttons {
-      margin-top: 12px;
-    }
-
-    /* Resend / change email links */
-    #api .verificationControlContent a {
-      font-size: 13px;
-    }
-
-    /* =====================================================================
-       PASSWORD COMPLEXITY METER
-       ===================================================================== */
-    #api .PasswordComplexity {
-      margin-top: 8px;
+    /* Footer */
+    .pg-footer {
+      margin-top: 24px;
+      text-align: center;
       font-size: 12px;
       color: #6B6560;
     }
-
-    /* =====================================================================
-       KEEP ME SIGNED IN / CHECKBOX OPTIONS
-       ===================================================================== */
-    #api .options {
-      margin-top: 16px;
-    }
-
-    #api .options .option {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: #6B6560;
-    }
-
-    #api .options input[type="checkbox"] {
-      width: 16px !important;
-      height: 16px !important;
-      padding: 0 !important;
-      border-radius: 4px !important;
-      accent-color: #1A7A5E;
-      cursor: pointer;
-    }
+    .pg-footer a { color: #1A7A5E; text-decoration: none; font-weight: 500; }
+    .pg-footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 
-  <!-- PrendaGo brand -->
   <div class="pg-brand">
     <div class="pg-logo">PrendaGo</div>
     <p class="pg-tagline">Segunda mano, primera calidad.</p>
   </div>
 
-  <!-- Card — B2C injects the form inside #api -->
   <div class="pg-card">
+    <!-- Azure AD B2C Placeholder -->
     <div id="api"></div>
   </div>
 
-  <!-- Footer -->
   <p class="pg-footer">
-    Al continuar, aceptas los
-    <a href="https://prendago.com/terminos" target="_blank" rel="noopener">Términos de servicio</a>
-    y la
-    <a href="https://prendago.com/privacidad" target="_blank" rel="noopener">Política de privacidad</a>
-    de PrendaGo.
+    Al continuar, aceptas los 
+    <a href="https://prendago.com/terminos" target="_blank">Términos de servicio</a> y la 
+    <a href="https://prendago.com/privacidad" target="_blank">Política de privacidad</a> de PrendaGo.
   </p>
 
 </body>
