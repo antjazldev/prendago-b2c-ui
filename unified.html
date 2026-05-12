@@ -211,6 +211,43 @@
     .pg-card-subtitle { font-size: 14px; color: #6B6560; margin-bottom: 20px; }
     .pg-footer { margin-top: 24px; text-align: center; font-size: 12px; color: #6B6560; }
     .pg-footer a { color: #1A7A5E; text-decoration: none; font-weight: 500; }
+
+    /* =========================================================
+       SELFASSERTED (SIGNUP) — targeted fixes
+       ========================================================= */
+
+    /* 1. Hide all helpLink anchors */
+    #api a.helpLink {
+      display: none !important;
+    }
+
+    /* 2. Remove bullets from attributeList */
+    #api #attributeList ul,
+    #api #attributeList li {
+      list-style: none !important;
+      padding-left: 0 !important;
+      margin-left: 0 !important;
+    }
+
+    /* 3. Spacing between field groups */
+    #api .attrEntry {
+      margin-bottom: 12px !important;
+    }
+
+    /* 4. Verify-email buttons container spacing */
+    #api .verificationControlContent .buttons {
+      margin-top: 8px !important;
+    }
+
+    /* 5. Hide intro paragraph in SelfAsserted form */
+    #api[data-name="SelfAsserted"] .intro {
+      display: none !important;
+    }
+
+    /* 6. Hide the empty top buttons div B2C injects in SelfAsserted */
+    #api[data-name="SelfAsserted"] > .buttons:first-child {
+      display: none !important;
+    }
   </style>
 </head>
 <body>
