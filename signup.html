@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrendaGo - Crear cuenta</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body { min-height: 100%; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #F7F5F2;
+      color: #1A1A1A;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* top-align so the tall sign-up card doesn't get clipped on short viewports */
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 40px 16px 48px;
+    }
+
+    .pg-brand {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .pg-logo {
+      font-weight: 700;
+      font-size: 28px;
+      color: #1A7A5E;
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+
+    .pg-tagline {
+      font-size: 14px;
+      color: #6B6560;
+      margin-top: 8px;
+    }
+
+    .pg-card {
+      width: 100%;
+      max-width: 400px;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #E0DDD8;
+      padding: 32px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    }
+
+    #api {
+      font-family: 'Inter', sans-serif !important;
+    }
+
+    #api .intro, #api .heading, #api h1, #api h2.localAccount-intro,
+    .simplemodal-wrap, #distanceFromTop, .bread-crumb {
+      display: none !important;
+    }
+
+    /* =========================================================
+       PAGE-LEVEL ERRORS
+       ========================================================= */
+    #api #claimVerificationServerError,
+    #api .error.pageLevel,
+    #api #errorIntroduction {
+      display: none !important;
+    }
+
+    #api #claimVerificationServerError:not([aria-hidden="true"]),
+    #api .error.pageLevel[aria-hidden="false"],
+    #api #errorIntroduction[aria-hidden="false"] {
+      display: block !important;
+      background: #FEE2E2 !important;
+      border: 1px solid #E63F3F !important;
+      border-radius: 8px !important;
+      padding: 10px 14px !important;
+      margin-bottom: 16px;
+      font-family: 'Inter', sans-serif !important;
+      font-size: 13px !important;
+      color: #991B1B !important;
+    }
+
+    /* =========================================================
+       ITEM-LEVEL ERRORS
+       ========================================================= */
+    #api .error.itemLevel {
+      display: none !important;
+    }
+
+    #api .error.itemLevel[aria-hidden="false"],
+    #api .error.itemLevel:not([aria-hidden="true"]) {
+      display: block !important;
+      color: #E63F3F !important;
+      font-size: 12px !important;
+      font-family: 'Inter', sans-serif !important;
+      margin-top: 4px !important;
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+    }
+
+    #api .error.itemLevel p {
+      color: #E63F3F !important;
+      font-size: 12px !important;
+      margin: 0 !important;
+    }
+
+    /* =========================================================
+       FORM LAYOUT
+       ========================================================= */
+    #api .entry-item { margin-bottom: 16px; }
+
+    .password-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    #api label {
+      display: block;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      margin-bottom: 6px;
+      color: #1A1A1A !important;
+    }
+
+    /* =========================================================
+       INPUTS
+       ========================================================= */
+    #api input[type="text"],
+    #api input[type="email"],
+    #api input[type="password"] {
+      width: 100% !important;
+      padding: 12px !important;
+      border: 1px solid #E0DDD8 !important;
+      border-radius: 8px !important;
+      font-size: 14px !important;
+      font-family: 'Inter', sans-serif !important;
+      color: #1A1A1A !important;
+      background: #fff !important;
+      transition: border-color 0.15s ease;
+    }
+
+    #api input:focus {
+      border-color: #1A7A5E !important;
+      outline: none !important;
+      box-shadow: 0 0 0 3px rgba(26, 122, 94, 0.1) !important;
+    }
+
+    /* No red border on invalid — errors shown via messages */
+    #api input:invalid,
+    #api input.has-error {
+      border-color: #E0DDD8 !important;
+      box-shadow: none !important;
+    }
+
+    /* =========================================================
+       EMAIL VERIFICATION
+       ========================================================= */
+
+    /* Send code / Verify code buttons — outline green */
+    #api #email_ver_but_send,
+    #api #email_ver_but_verify {
+      background: transparent !important;
+      border: 1.5px solid #1A7A5E !important;
+      color: #1A7A5E !important;
+      border-radius: 8px !important;
+      padding: 10px 16px !important;
+      font-size: 14px !important;
+      font-weight: 500 !important;
+      font-family: 'Inter', sans-serif !important;
+      cursor: pointer;
+      width: 100% !important;
+      margin-top: 8px;
+      transition: background 0.15s ease;
+    }
+
+    #api #email_ver_but_send:hover,
+    #api #email_ver_but_verify:hover {
+      background: #E8F5F0 !important;
+    }
+
+    /* Resend code — subtler outline */
+    #api #email_ver_but_resend {
+      background: transparent !important;
+      border: 1px solid #E0DDD8 !important;
+      color: #6B6560 !important;
+      border-radius: 8px !important;
+      padding: 8px 14px !important;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      font-family: 'Inter', sans-serif !important;
+      cursor: pointer;
+      width: 100% !important;
+      margin-top: 8px;
+      transition: background 0.15s ease;
+    }
+
+    #api #email_ver_but_resend:hover {
+      background: #F7F5F2 !important;
+    }
+
+    /* Change email — link style */
+    #api #email_ver_but_edit {
+      background: transparent !important;
+      border: none !important;
+      color: #1A7A5E !important;
+      font-size: 13px !important;
+      font-family: 'Inter', sans-serif !important;
+      cursor: pointer;
+      padding: 4px 0 !important;
+      text-decoration: underline;
+      display: inline-block;
+    }
+
+    /* Verification code input */
+    #api #email_ver_input {
+      margin-top: 8px;
+    }
+
+    /* Success confirmation */
+    #api #email_ver_success {
+      font-size: 13px !important;
+      color: #1A7A5E !important;
+      font-family: 'Inter', sans-serif !important;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* =========================================================
+       PRIMARY SUBMIT BUTTON
+       ========================================================= */
+    #api .buttons { margin-top: 24px; }
+
+    #api #next {
+      width: 100% !important;
+      padding: 12px !important;
+      background: #1A7A5E !important;
+      color: #fff !important;
+      border: none !important;
+      border-radius: 8px !important;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      font-family: 'Inter', sans-serif !important;
+      cursor: pointer;
+      transition: opacity 0.15s ease;
+    }
+
+    #api #next:hover { opacity: 0.9; }
+
+    /* =========================================================
+       DIVIDER
+       ========================================================= */
+    #api .divider {
+      display: flex;
+      align-items: center;
+      margin: 24px 0;
+      color: #6B6560;
+      font-size: 13px;
+    }
+
+    #api .divider::before, #api .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #E0DDD8;
+    }
+
+    #api .divider h2 {
+      padding: 0 12px;
+      font-size: 13px !important;
+      font-weight: 400 !important;
+      color: #6B6560 !important;
+    }
+
+    /* =========================================================
+       SIGN-IN LINK
+       ========================================================= */
+    #api .create {
+      text-align: center;
+      font-size: 14px;
+      color: #6B6560;
+    }
+
+    #api .create a,
+    #api #createAccount {
+      color: #1A7A5E !important;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    #api .create a:hover { text-decoration: underline; }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    .pg-footer {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: #6B6560;
+      max-width: 400px;
+    }
+
+    .pg-footer a {
+      color: #1A7A5E;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .pg-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div class="pg-brand">
+    <div class="pg-logo">PrendaGo</div>
+    <p class="pg-tagline">Segunda mano, primera calidad.</p>
+  </div>
+
+  <div class="pg-card">
+    <div id="api"></div>
+  </div>
+
+  <p class="pg-footer">
+    Al continuar, aceptas los
+    <a href="https://prendago.com/terminos" target="_blank">Términos de servicio</a>
+    y la
+    <a href="https://prendago.com/privacidad" target="_blank">Política de privacidad</a>
+    de PrendaGo.
+  </p>
+
+</body>
+</html>
