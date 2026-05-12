@@ -85,26 +85,28 @@
       display: none !important;
     }
 
-    /* FIX: HIDE RED BOX WHEN EMPTY OR HIDDEN */
-    #api .error.pageLevel, 
-    #api #claimVerificationServerError, 
-    #api #errorIntroduction {
-      display: none !important; /* Force hide by default */
-    }
+   /* 1. Por defecto, ocultamos los contenedores de error completamente */
+#api #claimVerificationServerError, 
+#api .error.pageLevel, 
+#api #errorIntroduction {
+  display: none !important;
+}
 
-    /* SHOW ERROR ONLY WHEN ACTIVE */
-    #api .error.pageLevel[aria-hidden="false"],
-    #api #claimVerificationServerError:not([aria-hidden="true"]),
-    #api .error.pageLevel:not(:empty) {
-      display: block !important;
-      background: #FEE2E2 !important;
-      border: 1px solid #E63F3F !important;
-      color: #991B1B !important;
-      border-radius: 8px !important;
-      padding: 10px 14px !important;
-      margin-bottom: 16px;
-      font-size: 13px !important;
-    }
+/* 2. Solo aplicamos estilos y mostramos si el elemento NO tiene aria-hidden="true" 
+      Azure B2C cambia este atributo a "false" automáticamente cuando hay un error. */
+#api #claimVerificationServerError:not([aria-hidden="true"]),
+#api .error.pageLevel[aria-hidden="false"],
+#api #errorIntroduction[aria-hidden="false"] {
+  display: block !important;
+  background: #FEE2E2 !important;
+  border: 1px solid #E63F3F !important;
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+  margin-bottom: 16px;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 13px !important;
+  color: #991B1B !important;
+}
 
     /* Field Level Errors */
     #api .error.itemLevel:not(:empty) {
