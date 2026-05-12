@@ -362,21 +362,22 @@
        ERRORS
        ===================================================================== */
 
-    /* Page-level error (e.g. wrong credentials) */
+    /* Server / verification error — B2C uses id="claimVerificationServerError" */
+    #api #claimVerificationServerError,
     #api .error.pageLevel,
     #api #errorIntroduction {
       display: block;
-      background: rgba(230, 63, 63, 0.06) !important;
-      border: 1px solid rgba(230, 63, 63, 0.25) !important;
+      background: #FEE2E2 !important;
+      border: 1px solid #E63F3F !important;
       border-radius: 8px !important;
       padding: 10px 14px !important;
-      margin-bottom: 20px;
+      margin-bottom: 12px;
       font-family: 'Inter', sans-serif !important;
       font-size: 13px !important;
-      color: #E63F3F !important;
+      color: #991B1B !important;
     }
 
-    /* Field-level error */
+    /* Field-level error (inline, below input) */
     #api .error.itemLevel,
     #api .error:not(.pageLevel) {
       font-family: 'Inter', sans-serif !important;
@@ -391,10 +392,18 @@
       color: #E63F3F;
     }
 
-    /* Input in error state */
+    /* Inputs always keep the neutral border — no red border on error */
     #api input.has-error,
     #api input[aria-invalid="true"] {
-      border-color: #E63F3F !important;
+      border: 1px solid #E0DDD8 !important;
+    }
+
+    /* Hide error containers when B2C renders them empty */
+    #claimVerificationServerError:empty,
+    .error:empty,
+    [id*="error"]:empty,
+    [class*="error"]:empty {
+      display: none;
     }
 
     /* =====================================================================
