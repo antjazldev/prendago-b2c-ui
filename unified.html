@@ -311,6 +311,126 @@
       font-weight: 400;
       margin-bottom: 20px;
     }
+
+    /* =========================================================
+       SIGNUP FORM — structural fixes
+       ========================================================= */
+
+    /* Hide help links and javascript: anchor links B2C sometimes injects */
+    #api .helpLink,
+    #api .helpLink.tiny,
+    a[href*="javascript"]:not(#forgotPassword):not(#createAccount) {
+      display: none !important;
+    }
+
+    /* Remove bullets B2C puts on list-based field groups */
+    #api ul,
+    #api li {
+      list-style: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    /* Inputs — add margin-top and display:block for signup field rows */
+    #api input[type="text"],
+    #api input[type="email"],
+    #api input[type="password"] {
+      width: 100% !important;
+      padding: 12px !important;
+      border: 1px solid #E0DDD8 !important;
+      border-radius: 8px !important;
+      font-size: 14px !important;
+      font-family: 'Inter', sans-serif !important;
+      margin-top: 6px !important;
+      display: block !important;
+    }
+
+    /* Labels — tighter top spacing for dense signup fields */
+    #api label {
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      color: #1A1A1A !important;
+      display: block !important;
+      margin-bottom: 4px !important;
+      margin-top: 12px !important;
+    }
+
+    /* Entry / attribute row spacing */
+    #api .entry-item,
+    #api .attrEntry {
+      margin-bottom: 4px !important;
+    }
+
+    /* =========================================================
+       SIGNUP FORM — emailVerificationControl buttons
+       (B2C signup uses these IDs, distinct from #email_ver_but_*)
+       ========================================================= */
+    #api #emailVerificationControl_but_send_code,
+    #api #emailVerificationControl_but_verify_code,
+    #api #emailVerificationControl_but_change_claims {
+      background: transparent !important;
+      border: 1.5px solid #1A7A5E !important;
+      color: #1A7A5E !important;
+      border-radius: 8px !important;
+      padding: 10px 16px !important;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      font-family: 'Inter', sans-serif !important;
+      cursor: pointer !important;
+      width: 100% !important;
+      margin-top: 8px !important;
+      transition: background 0.15s ease;
+    }
+
+    #api #emailVerificationControl_but_send_code:hover,
+    #api #emailVerificationControl_but_verify_code:hover,
+    #api #emailVerificationControl_but_change_claims:hover {
+      background: #E8F5F0 !important;
+    }
+
+    /* =========================================================
+       SIGNUP FORM — submit & cancel buttons
+       ========================================================= */
+
+    /* "Crear cuenta" / primary submit in signup */
+    #api #continue,
+    #api .sendButton {
+      background: #1A7A5E !important;
+      color: #fff !important;
+      border: none !important;
+      border-radius: 8px !important;
+      padding: 12px 24px !important;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      font-family: 'Inter', sans-serif !important;
+      cursor: pointer !important;
+      width: 100% !important;
+      margin-top: 16px !important;
+      transition: opacity 0.15s ease;
+    }
+
+    #api #continue:hover,
+    #api .sendButton:hover {
+      opacity: 0.9;
+    }
+
+    /* Cancel / secondary */
+    #api #cancel {
+      background: transparent !important;
+      border: 1px solid #E0DDD8 !important;
+      color: #6B6560 !important;
+      border-radius: 8px !important;
+      padding: 12px 24px !important;
+      font-size: 14px !important;
+      font-family: 'Inter', sans-serif !important;
+      cursor: pointer !important;
+      width: 100% !important;
+      margin-top: 8px !important;
+    }
+
+    #api #cancel:hover {
+      background: #F7F5F2 !important;
+    }
   </style>
 </head>
 <body>
